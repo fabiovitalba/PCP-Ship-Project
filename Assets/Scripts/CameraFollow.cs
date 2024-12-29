@@ -18,6 +18,11 @@ public class CameraFollow : MonoBehaviour
     private float currentYaw = 0f; // Current rotation angle (yaw) around the target
     private bool isRotating = false; // Whether the camera is currently being rotated
 
+    void Start()
+    {
+        
+    }
+
     void Update()
     {
         if (target == null)
