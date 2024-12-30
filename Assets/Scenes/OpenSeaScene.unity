@@ -588,6 +588,50 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -2305079171427426225, guid: 4fe7ec1d555ab494d836addf3c4b2c0f, type: 3}
   m_PrefabInstance: {fileID: 16615801}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &655725500
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 655725501}
+  - component: {fileID: 655725502}
+  m_Layer: 0
+  m_Name: WaterBoilerMessageListener
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &655725501
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 655725500}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1613195762}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &655725502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 655725500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb944b455a4064eaa8adb77a7d44f5b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -847,6 +891,7 @@ Transform:
   m_Children:
   - {fileID: 1692936034}
   - {fileID: 1938597152}
+  - {fileID: 655725501}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1692936031
@@ -1154,6 +1199,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cdf75fb1b7324ff59c16a5587a66614, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  portName: tty.usbserial-144120
+  baudRate: 9600
+  messageListener: {fileID: 655725500}
+  reconnectionDelay: 1000
+  maxUnreadMessages: 1
 --- !u!1 &2066395464
 GameObject:
   m_ObjectHideFlags: 0
