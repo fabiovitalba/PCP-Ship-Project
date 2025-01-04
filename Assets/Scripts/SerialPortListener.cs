@@ -23,9 +23,11 @@ using System.Threading;
  * on the integrity of the message. It's up to the one that makes sense of the
  * data.
  */
-public class SerialShipController : MonoBehaviour
+public class SerialPortListener : MonoBehaviour
 {
     [Tooltip("Port name with which the SerialPort object will be created.")]
+    // On MacOS/Linux something like /dev/cu.usbserial-143120
+    // Use the comand ls /dev/{tty,cu}.* in order to see the list of connected serial port devices and select the correct port.
     public string portName = "COM3";
 
     [Tooltip("Baud rate that the serial device is using to transmit data.")]

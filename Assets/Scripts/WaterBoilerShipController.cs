@@ -14,7 +14,7 @@ using System.Collections;
  *  - OnMessageArrived
  *  - OnConnectionEvent
  */
-public class WaterBoilerMessageListener : MonoBehaviour
+public class WaterBoilerShipController : MonoBehaviour
 {
     // Invoked when a line of data is received from the serial device.
     void OnMessageArrived(string msg)
@@ -25,7 +25,7 @@ public class WaterBoilerMessageListener : MonoBehaviour
             string[] values = variable.Split(":");
             switch(values[0].ToLower()) {
                 case "absoluterotationvalue":
-                    break;
+                    break; // This value is received but ignored
                 case "relativerotationvalue":
                     handleRotationValue(float.Parse(values[1]));
                     break;
@@ -50,18 +50,36 @@ public class WaterBoilerMessageListener : MonoBehaviour
             Debug.Log("Controller connection attempt failed or disconnection detected.");
     }
 
+    /// <summary>
+    /// This Procedure receives a float with a relative Rotation value, meaning a delta from the original rotation of the water boiler.
+    /// When the boiler is rotated to the right, the received value is below 0, and when the boiler is rotated to the left the value will be positive.
+    /// </summary>
+    /// <param name="rotationValue"></param>
     private void handleRotationValue(float rotationValue)
     {
-
+        Debug.Log("Rotation: " + rotationValue);
+        // Negative: To the right
+        // Positive: To the left
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="switchValue"></param>
     private void handleSwitchValue(float switchValue)
     {
-
+        Debug.Log("Switch: " + switchValue);
+        // Below 300 = Off
+        // Above 300 = On
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="lightValue"></param>
     private void handleLightValue(float lightValue)
     {
-
+        Debug.Log("Light: " + lightValue);
+        // Value between 0 and 255
     }
 }
