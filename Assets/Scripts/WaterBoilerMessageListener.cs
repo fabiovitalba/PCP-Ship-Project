@@ -19,7 +19,24 @@ public class WaterBoilerMessageListener : MonoBehaviour
     // Invoked when a line of data is received from the serial device.
     void OnMessageArrived(string msg)
     {
-        Debug.Log("Message arrived: " + msg);
+        string[] variables = msg.Split(',');
+        foreach (var variable in variables)
+        {
+            string[] values = variable.Split(":");
+            switch(values[0].ToLower()) {
+                case "absoluterotationvalue":
+                    break;
+                case "relativerotationvalue":
+                    handleRotationValue(float.Parse(values[1]));
+                    break;
+                case "switchvalue":
+                    handleSwitchValue(float.Parse(values[1]));
+                    break;
+                case "lightvalue":
+                    handleLightValue(float.Parse(values[1]));
+                    break;
+            }
+        }
     }
 
     // Invoked when a connect/disconnect event occurs. The parameter 'success'
@@ -28,8 +45,23 @@ public class WaterBoilerMessageListener : MonoBehaviour
     void OnConnectionEvent(bool success)
     {
         if (success)
-            Debug.Log("Connection established");
+            Debug.Log("Controller over connected over serial port.");
         else
-            Debug.Log("Connection attempt failed or disconnection detected");
+            Debug.Log("Controller connection attempt failed or disconnection detected.");
+    }
+
+    private void handleRotationValue(float rotationValue)
+    {
+
+    }
+
+    private void handleSwitchValue(float switchValue)
+    {
+
+    }
+
+    private void handleLightValue(float lightValue)
+    {
+
     }
 }
