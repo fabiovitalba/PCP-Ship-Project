@@ -28,7 +28,7 @@ public class CameraFollow : MonoBehaviour
         if (target == null)
             return;
 
-        // Handle rotation input
+        // Handle camera rotation input
         if (Input.GetKey(KeyCode.E))
         {
             currentYaw -= rotationSpeed * Time.deltaTime;
@@ -77,6 +77,7 @@ public class CameraFollow : MonoBehaviour
 
         // Calculate desired position and rotation
         Vector3 desiredPosition = targetPosition + targetOffset;
+        desiredPosition.y = transform.position.y;
         Quaternion desiredRotation = Quaternion.LookRotation(targetPosition - transform.position);
 
         // Smoothly move to the desired position
