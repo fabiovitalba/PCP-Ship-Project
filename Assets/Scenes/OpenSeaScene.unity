@@ -444,13 +444,19 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 4fe7ec1d555ab494d836addf3c4b2c0f, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1938597147}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 4fe7ec1d555ab494d836addf3c4b2c0f, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 1938597149}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 4fe7ec1d555ab494d836addf3c4b2c0f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1938597151}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 4fe7ec1d555ab494d836addf3c4b2c0f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1938597155}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 4fe7ec1d555ab494d836addf3c4b2c0f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1938597154}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 4fe7ec1d555ab494d836addf3c4b2c0f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1938597147}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 4fe7ec1d555ab494d836addf3c4b2c0f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1938597153}
@@ -656,7 +662,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 1
+  m_Lightmapping: 4
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -675,13 +681,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 705507993}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
+  m_LocalRotation: {x: 0.107298195, y: -0.12541664, z: 0.1496739, w: 0.97486186}
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1215899145}
-  m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+  m_LocalEulerAnglesHint: {x: 14.285, y: -12.661, z: 15.864}
 --- !u!1001 &1037987929
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1126,17 +1132,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f111a33c3fdd405db6417892103421b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0
-  acceleration: 1
-  decceleration: 0.75
-  maxspeed: 7
-  minspeed: -0.25
-  heading: 0
-  rudder: 0
-  rudderDelta: 2
-  maxRudder: 6
-  bob: -0.5
-  bobFrequency: 0.18
 --- !u!136 &1938597149
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1204,6 +1199,49 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb944b455a4064eaa8adb77a7d44f5b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  waterBoilerConnected: 0
+  cutoffRotationValue: 20
+  switchValueThreshold: 300
+  minLightValue: 0
+  maxLightValue: 255
+  debugRelativeRotationValue: 0
+  debugSwitchValue: 0
+  debugLightValue: 0
+--- !u!114 &1938597154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1938597145}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 724738fcfbd1d4d78906ddc293c9a482, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 0
+  acceleration: 1
+  decceleration: 0.75
+  maxspeed: 7
+  minspeed: 0
+  heading: 0
+  rudder: 0
+  rudderDelta: 2
+  maxRudder: 6
+--- !u!114 &1938597155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1938597145}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 040e7846a7901447c841e217c4f1eba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bob: 0.3
+  bobFrequency: 0.2
 --- !u!1 &2066395464
 GameObject:
   m_ObjectHideFlags: 0

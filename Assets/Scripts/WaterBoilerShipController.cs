@@ -16,6 +16,40 @@ using System.Collections;
  */
 public class WaterBoilerShipController : MonoBehaviour
 {
+    [Header("Input Tuning")]
+    public bool waterBoilerConnected = false;
+    public float cutoffRotationValue = 20f;
+    public float switchValueThreshold = 300f;
+    public float minLightValue = 0f;
+    public float maxLightValue = 255f;
+
+    [Header("Debug")]
+    public float debugRelativeRotationValue = 0.0f;
+    public float debugSwitchValue = 0.0f;
+    public float debugLightValue = 0.0f;
+
+
+    private ShipMovement shipMovement;
+    private float currentSteerInput = 0.0f;
+    private float currentAccelInput = 0.0f;
+    private bool currentLightInput = false;
+
+    // Use this for initialization
+    void Start()
+    {
+        shipMovement = GetComponent<ShipMovement>();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        // unused
+        if (waterBoilerConnected) {
+            shipMovement.Steer(currentSteerInput);
+            shipMovement.Accelerate(currentAccelInput);
+        }
+    }
+
     // Invoked when a line of data is received from the serial device.
     void OnMessageArrived(string msg)
     {
@@ -27,13 +61,13 @@ public class WaterBoilerShipController : MonoBehaviour
                 case "absoluterotationvalue":
                     break; // This value is received but ignored
                 case "relativerotationvalue":
-                    handleRotationValue(float.Parse(values[1]));
+                    HandleRotationValue(float.Parse(values[1]));
                     break;
                 case "switchvalue":
-                    handleSwitchValue(float.Parse(values[1]));
+                    HandleSwitchValue(float.Parse(values[1]));
                     break;
                 case "lightvalue":
-                    handleLightValue(float.Parse(values[1]));
+                    HandleLightValue(float.Parse(values[1]));
                     break;
             }
         }
@@ -44,10 +78,13 @@ public class WaterBoilerShipController : MonoBehaviour
     // failure to connect.
     void OnConnectionEvent(bool success)
     {
-        if (success)
+        if (success) {
             Debug.Log("Controller over connected over serial port.");
-        else
+            waterBoilerConnected = true;
+        } else {
             Debug.Log("Controller connection attempt failed or disconnection detected.");
+            waterBoilerConnected = false;
+        }
     }
 
     /// <summary>
@@ -55,31 +92,46 @@ public class WaterBoilerShipController : MonoBehaviour
     /// When the boiler is rotated to the right, the received value is below 0, and when the boiler is rotated to the left the value will be positive.
     /// </summary>
     /// <param name="rotationValue"></param>
-    private void handleRotationValue(float rotationValue)
+    private void HandleRotationValue(float rotationValue)
     {
-        Debug.Log("Rotation: " + rotationValue);
-        // Negative: To the right
-        // Positive: To the left
+        float inputValue = rotationValue * -1;
+        // First we ceil the value before mapping it.
+        if (Mathf.Abs(inputValue) > cutoffRotationValue) {
+            inputValue = Mathf.Sign(inputValue) * cutoffRotationValue;
+        }
+
+        // Now we map from [-ceil, ceil] to [0,1]
+        inputValue = Mathf.InverseLerp(-cutoffRotationValue,cutoffRotationValue,inputValue);
+
+        // And finally we map from [0,1] to [-1,1];
+        inputValue = Mathf.Lerp(-1,1,inputValue);
+
+        // The mapped value is now our Steering input
+        currentSteerInput = inputValue;
+
+        debugRelativeRotationValue = rotationValue;
     }
 
     /// <summary>
     /// 
     /// </summary>
     /// <param name="switchValue"></param>
-    private void handleSwitchValue(float switchValue)
+    private void HandleSwitchValue(float switchValue)
     {
-        Debug.Log("Switch: " + switchValue);
-        // Below 300 = Off
-        // Above 300 = On
+        currentLightInput = switchValue > switchValueThreshold;
+
+        debugSwitchValue = switchValue;
     }
 
     /// <summary>
     /// 
     /// </summary>
     /// <param name="lightValue"></param>
-    private void handleLightValue(float lightValue)
+    private void HandleLightValue(float lightValue)
     {
-        Debug.Log("Light: " + lightValue);
-        // Value between 0 and 255
+        float inputValue = Mathf.InverseLerp(minLightValue, maxLightValue, lightValue);
+        currentAccelInput = inputValue;
+
+        debugLightValue = lightValue;
     }
 }
