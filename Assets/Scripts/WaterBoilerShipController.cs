@@ -18,7 +18,7 @@ public class WaterBoilerShipController : MonoBehaviour
 {
     [Header("Input Tuning")]
     public bool waterBoilerConnected = false;
-    public float cutoffRotationValue = 20f;
+    public float cutoffRotationValue = 40f;
     public float switchValueThreshold = 300f;
     public float minLightValue = 0f;
     public float maxLightValue = 255f;
