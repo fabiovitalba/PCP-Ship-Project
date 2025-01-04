@@ -23,16 +23,17 @@ public class WaterBoilerShipController : MonoBehaviour
     public float minLightValue = 0f;
     public float maxLightValue = 255f;
 
-    [Header("Debug")]
+    [Header("Received Values (Debug)")]
     public float debugRelativeRotationValue = 0.0f;
     public float debugSwitchValue = 0.0f;
     public float debugLightValue = 0.0f;
 
+    [Header("Translated Inputs (Debug)")]
+    public float currentSteerInput = 0.0f;
+    public float currentAccelInput = 0.0f;
+    public bool currentLightInput = false;
 
     private ShipMovement shipMovement;
-    private float currentSteerInput = 0.0f;
-    private float currentAccelInput = 0.0f;
-    private bool currentLightInput = false;
 
     // Use this for initialization
     void Start()
