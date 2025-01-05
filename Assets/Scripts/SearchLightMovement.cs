@@ -42,18 +42,18 @@ public class SearchLightMovement : MonoBehaviour
     private float GetCurrentAngle() {
         switch(rotationAxis) {
             case Axis.XAxis:
-                return transform.eulerAngles.x;
+                return transform.localEulerAngles.x;
             case Axis.YAxis:
-                return transform.eulerAngles.y;
+                return transform.localEulerAngles.y;
             case Axis.ZAxis:
-                return transform.eulerAngles.z;
+                return transform.localEulerAngles.z;
             default:
                 return 0;
         }
     }
 
     private void SetCurrentAngle(float newAngle) {
-        Vector3 rotation = transform.eulerAngles;
+        Vector3 rotation = transform.localEulerAngles;
         switch (rotationAxis)
         {
             case Axis.XAxis:
@@ -68,6 +68,6 @@ public class SearchLightMovement : MonoBehaviour
             default:
                 break;
         }
-        transform.eulerAngles = rotation;
+        transform.localEulerAngles = rotation;
     }
 }
