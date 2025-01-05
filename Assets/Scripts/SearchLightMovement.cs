@@ -13,31 +13,31 @@ public class SearchLightMovement : MonoBehaviour
 {
     public Axis rotationAxis = Axis.YAxis;
     public float maxRotationAngle = 30;
-    public float deltaAngle = 2.0f;
+    public float rotationSpeed = 20.0f;
 
     private float startAngle;
+    private float currAngle;
     private bool increasingAngle = true;
 
     // Start is called before the first frame update
     void Start()
     {
         startAngle = GetCurrentAngle();
+        currAngle = GetCurrentAngle();
     }
 
     // Update is called once per frame
     void Update()
     {
+        //TODO: The rotation ends apruptly instead of flowing from one end to the other
         if (GetComponent<Light>().enabled) {
-            float currAngle = GetCurrentAngle();
-            if (Mathf.Abs(currAngle - startAngle) >= maxRotationAngle) {
-                increasingAngle = !increasingAngle;
-            }
-            float newAngle = increasingAngle ? currAngle + deltaAngle : currAngle - deltaAngle;
+            currAngle = GetCurrentAngle();
+            float newAngle = increasingAngle ? currAngle + (rotationSpeed * Time.deltaTime) : currAngle - (rotationSpeed * Time.deltaTime);
             if (Mathf.Abs(newAngle) >= maxRotationAngle) {
                 newAngle = maxRotationAngle * Mathf.Sign(newAngle);
                 increasingAngle = !increasingAngle;
             }
-            SetCurrentAngle(newAngle);
+            SetCurrentAngle(startAngle + newAngle);
         }
     }
 
