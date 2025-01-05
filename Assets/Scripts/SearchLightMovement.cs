@@ -23,21 +23,19 @@ public class SearchLightMovement : MonoBehaviour
     void Start()
     {
         startAngle = GetCurrentAngle();
-        currAngle = GetCurrentAngle();
+        currAngle = startAngle;
     }
 
     // Update is called once per frame
     void Update()
     {
-        //TODO: The rotation ends apruptly instead of flowing from one end to the other
         if (GetComponent<Light>().enabled) {
             currAngle = GetCurrentAngle();
             float newAngle = increasingAngle ? currAngle + (rotationSpeed * Time.deltaTime) : currAngle - (rotationSpeed * Time.deltaTime);
-            if (Mathf.Abs(newAngle) >= maxRotationAngle) {
-                newAngle = maxRotationAngle * Mathf.Sign(newAngle);
+            if (Mathf.Abs(newAngle - startAngle) >= maxRotationAngle) {
                 increasingAngle = !increasingAngle;
             }
-            SetCurrentAngle(startAngle + newAngle);
+            SetCurrentAngle(newAngle);
         }
     }
 
