@@ -29,18 +29,13 @@ public class CameraFollow : MonoBehaviour
             return;
 
         // Handle camera rotation input
-        if (Input.GetKey(KeyCode.E))
-        {
+        if (Input.GetKey(KeyCode.E)) {
             currentYaw -= rotationSpeed * Time.deltaTime;
             isRotating = true;
-        }
-        else if (Input.GetKey(KeyCode.Q))
-        {
+        } else if (Input.GetKey(KeyCode.Q)) {
             currentYaw += rotationSpeed * Time.deltaTime;
             isRotating = true;
-        }
-        else
-        {
+        } else {
             isRotating = false;
         }
 
@@ -61,14 +56,11 @@ public class CameraFollow : MonoBehaviour
         Vector3 targetOffset = targetRotation * defaultOffset;
 
         // Handle rotation
-        if (isRotating)
-        {
+        if (isRotating) {
             // Apply user-controlled yaw rotation
             Quaternion userRotation = Quaternion.Euler(0, currentYaw, 0);
             targetOffset = userRotation * targetOffset;
-        }
-        else
-        {
+        } else {
             // Smoothly reset the yaw angle
             currentYaw = Mathf.LerpAngle(currentYaw, 0, rotationResetSpeed * Time.deltaTime);
             Quaternion resetRotation = Quaternion.Euler(0, currentYaw, 0);

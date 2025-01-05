@@ -34,11 +34,13 @@ public class WaterBoilerShipController : MonoBehaviour
     public bool currentLightInput = false;
 
     private ShipMovement shipMovement;
+    private ShipSearchLight shipSearchLight;
 
     // Use this for initialization
     void Start()
     {
         shipMovement = GetComponent<ShipMovement>();
+        shipSearchLight = GetComponent<ShipSearchLight>();
     }
 
     // Update is called once per frame
@@ -48,6 +50,8 @@ public class WaterBoilerShipController : MonoBehaviour
         if (waterBoilerConnected) {
             shipMovement.Steer(currentSteerInput);
             shipMovement.Accelerate(currentAccelInput);
+            
+            shipSearchLight.ToggleSearchLights(currentLightInput);
         }
     }
 
@@ -55,8 +59,7 @@ public class WaterBoilerShipController : MonoBehaviour
     void OnMessageArrived(string msg)
     {
         string[] variables = msg.Split(',');
-        foreach (var variable in variables)
-        {
+        foreach (var variable in variables) {
             string[] values = variable.Split(":");
             switch(values[0].ToLower()) {
                 case "absoluterotationvalue":

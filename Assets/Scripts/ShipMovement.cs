@@ -29,7 +29,8 @@ public class ShipMovement : MonoBehaviour
         
     }
 
-    public void Accelerate(float inputSpeed) {
+    public void Accelerate(float inputSpeed)
+    {
         if ((inputSpeed <= 0.01f) && (inputSpeed >= -0.01f)) {
             if (speed > 0) {
                 speed -= decceleration * Time.deltaTime;
@@ -58,7 +59,8 @@ public class ShipMovement : MonoBehaviour
         transform.Translate(0, 0, speed * Time.deltaTime);
     }
 
-    public void Steer(float inputRudder) {
+    public void Steer(float inputRudder)
+    {
         rudder += inputRudder * rudderDelta * Time.deltaTime;
         if (rudder > maxRudder) {
             rudder = maxRudder;
