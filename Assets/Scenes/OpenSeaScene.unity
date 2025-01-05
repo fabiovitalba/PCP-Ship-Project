@@ -1134,8 +1134,8 @@ Light:
   serializedVersion: 10
   m_Type: 0
   m_Shape: 0
-  m_Color: {r: 1, g: 0, b: 0.04357338, a: 1}
-  m_Intensity: 3
+  m_Color: {r: 1, g: 0.8235294, b: 0, a: 1}
+  m_Intensity: 4
   m_Range: 50
   m_SpotAngle: 10
   m_InnerSpotAngle: 1
@@ -1825,8 +1825,8 @@ Light:
   serializedVersion: 10
   m_Type: 0
   m_Shape: 0
-  m_Color: {r: 1, g: 0, b: 0.04357338, a: 1}
-  m_Intensity: 3
+  m_Color: {r: 1, g: 0.82174134, b: 0, a: 1}
+  m_Intensity: 4
   m_Range: 50
   m_SpotAngle: 10
   m_InnerSpotAngle: 1
@@ -2604,7 +2604,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cdf75fb1b7324ff59c16a5587a66614, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  portName: /dev/cu.usbserial-144120
+  portName: /dev/cu.usbserial-143120
   baudRate: 9600
   messageListener: {fileID: 1938597145}
   reconnectionDelay: 1000
@@ -2943,8 +2943,8 @@ Light:
   serializedVersion: 10
   m_Type: 0
   m_Shape: 0
-  m_Color: {r: 1, g: 0, b: 0.04357338, a: 1}
-  m_Intensity: 3
+  m_Color: {r: 1, g: 0.8235294, b: 0, a: 1}
+  m_Intensity: 4
   m_Range: 50
   m_SpotAngle: 10
   m_InnerSpotAngle: 1

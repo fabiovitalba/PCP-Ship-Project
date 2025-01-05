@@ -5,12 +5,14 @@ using UnityEngine;
 public class DefaultShipController : MonoBehaviour
 {
     private ShipMovement shipMovement;
+    private ShipSearchLight shipSearchLight;
     private WaterBoilerShipController waterBoilerShipController;
 
     // Use this for initialization
     void Start()
     {
         shipMovement = GetComponent<ShipMovement>();
+        shipSearchLight = GetComponent<ShipSearchLight>();
         waterBoilerShipController = GetComponent<WaterBoilerShipController>();
     }
 
@@ -21,14 +23,18 @@ public class DefaultShipController : MonoBehaviour
             // Get default Inputs and call the Ship's methods
             shipMovement.Steer(Input.GetAxis("Horizontal"));
             shipMovement.Accelerate(Input.GetAxis("Vertical"));
+            if (Input.GetKey(KeyCode.Space)) {
+                shipSearchLight.ToggleSearchLights(true);
+            } else {
+                shipSearchLight.ToggleSearchLights(false);
+            }
         }
     }
 
     void OnCollisionEnter(Collision collisionInfo)
     {
         // Debug-draw all contact points and normals
-        foreach (ContactPoint contact in collisionInfo.contacts)
-        {
+        foreach (ContactPoint contact in collisionInfo.contacts) {
             Debug.DrawRay(contact.point, contact.normal, Color.white);
         }
 
@@ -42,8 +48,7 @@ public class DefaultShipController : MonoBehaviour
 
     void OnCollisionStay(Collision collisionInfo)
     {
-        foreach (ContactPoint contact in collisionInfo.contacts)
-        {
+        foreach (ContactPoint contact in collisionInfo.contacts) {
             Debug.DrawRay(contact.point, contact.normal, Color.white);
         }
 
