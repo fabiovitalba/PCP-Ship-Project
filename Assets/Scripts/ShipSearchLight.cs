@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class ShipSearchLight : MonoBehaviour
 {
-    public int minMillisBetweenToggles = 250;
-
     private GameObject[] searchLights;
     private bool currLightsEnabled = false;
 
