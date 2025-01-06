@@ -22,6 +22,7 @@ public class ShipMovement : MonoBehaviour
     public int maxLandContactMillis = 1500;
     // This variable stores the last Stand Checkpoint in order to return to the Stand if the player ever touches land for too long.
     public Vector3 lastStandPosition;
+    public Vector3 lastStandEulerAngles;
     public Quaternion lastStandRotation;
     public DateTime lastLandContact = new DateTime();
     public double millisSinceContactStart = 0;
@@ -31,9 +32,10 @@ public class ShipMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        shipRigidbody = GetComponent<Rigidbody>();
         lastStandPosition = transform.position;
         lastStandRotation = transform.rotation;
-        shipRigidbody = GetComponent<Rigidbody>();
+        lastStandEulerAngles = transform.eulerAngles;
     }
 
     // Update is called once per frame
@@ -101,11 +103,11 @@ public class ShipMovement : MonoBehaviour
         heading = 0.0f;
     }
 
-    public void SetLastStandPosition(Vector3 newPos, Quaternion newRot) {
-        newPos.y = lastStandPosition.y; // We want to maintain the same water-level, independently of the checkpoint height.
-        lastStandPosition = newPos;
-        lastStandRotation = newRot;
-        Debug.Log("STORED Position: " + lastStandPosition + ", Rotation: " + lastStandRotation.eulerAngles);
+    public void SetLastStandPosition(Vector3 newPosition, Vector3 newAngles, Quaternion newRotation) {
+        newPosition.y = lastStandPosition.y; // We want to maintain the same water-level, independently of the checkpoint height.
+        lastStandPosition = newPosition;
+        lastStandEulerAngles = newAngles;
+        lastStandRotation = newRotation;
     }
 
     public void ResetToLastStandPosition() {
@@ -113,8 +115,10 @@ public class ShipMovement : MonoBehaviour
         ResetSteering();
         shipRigidbody.velocity = Vector3.zero;
         shipRigidbody.angularVelocity = Vector3.zero;
-        transform.SetPositionAndRotation(lastStandPosition,lastStandRotation);
-        shipRigidbody.MoveRotation(lastStandRotation);
+        transform.position = lastStandPosition;
+        transform.rotation = lastStandRotation;
+        transform.eulerAngles = lastStandEulerAngles;
+        heading = transform.eulerAngles.y;
     }
 
     void OnCollisionEnter(Collision collisionInfo)
@@ -153,13 +157,13 @@ public class ShipMovement : MonoBehaviour
     {
         if (other.CompareTag("ShipStand"))
         {
-            Debug.Log("Player entered the Ship Stand area!");
+            Debug.Log("Storing Checkpoint!");
             Transform checkpoint = FindChildWithTag(other.transform,"ShipStandCheckpoint");
             if (checkpoint != null) {
-                Debug.Log("CHECKPOINT Position: " + checkpoint.position + ", Rotation: " + checkpoint.rotation.eulerAngles);
                 Vector3 newStandPosition = checkpoint.position;
+                Vector3 newStandEulerAngles = checkpoint.eulerAngles;
                 Quaternion newStandRotation = checkpoint.rotation;
-                SetLastStandPosition(newStandPosition, newStandRotation);
+                SetLastStandPosition(newStandPosition, newStandEulerAngles, newStandRotation);
             }
         }
     }
