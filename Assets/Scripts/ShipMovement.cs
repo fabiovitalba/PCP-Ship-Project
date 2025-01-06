@@ -101,6 +101,11 @@ public class ShipMovement : MonoBehaviour
         heading = 0.0f;
     }
 
+    public void SetLastStandPosition(Vector3 newPos, Quaternion newRot) {
+        lastStandPosition = newPos;
+        lastStandRotation = newRot;
+    }
+
     public void ResetToLastStandPosition() {
         transform.SetPositionAndRotation(lastStandPosition,lastStandRotation);
         shipRigidbody.velocity = Vector3.zero;
@@ -146,8 +151,10 @@ public class ShipMovement : MonoBehaviour
     {
         if (other.CompareTag("ShipStand"))
         {
-            Debug.Log("Player entered the area!");
-            // Add your code here
+            Debug.Log("Player entered the Ship Stand area!");
+            Vector3 newStandPosition = other.transform.position;
+            Quaternion newStandRotation = other.transform.rotation;
+            SetLastStandPosition(newStandPosition, newStandRotation);
         }
     }
 
@@ -155,8 +162,7 @@ public class ShipMovement : MonoBehaviour
     {
         if (other.CompareTag("ShipStand"))
         {
-            Debug.Log("Player left the area!");
-            // Add your code here
+            Debug.Log("Player left the Ship Stand area!");
         }
     }
 }
