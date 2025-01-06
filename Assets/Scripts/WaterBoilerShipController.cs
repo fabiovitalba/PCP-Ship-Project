@@ -83,10 +83,10 @@ public class WaterBoilerShipController : MonoBehaviour
     void OnConnectionEvent(bool success)
     {
         if (success) {
-            Debug.Log("Controller over connected over serial port.");
+            Debug.LogWarning("Controller over connected over serial port.");
             waterBoilerConnected = true;
         } else {
-            Debug.Log("Controller connection attempt failed or disconnection detected.");
+            Debug.LogWarning("Controller connection attempt failed or disconnection detected.");
             waterBoilerConnected = false;
         }
     }

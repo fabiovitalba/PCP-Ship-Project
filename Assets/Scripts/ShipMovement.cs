@@ -102,16 +102,19 @@ public class ShipMovement : MonoBehaviour
     }
 
     public void SetLastStandPosition(Vector3 newPos, Quaternion newRot) {
+        newPos.y = lastStandPosition.y; // We want to maintain the same water-level, independently of the checkpoint height.
         lastStandPosition = newPos;
         lastStandRotation = newRot;
+        Debug.Log("STORED Position: " + lastStandPosition + ", Rotation: " + lastStandRotation.eulerAngles);
     }
 
     public void ResetToLastStandPosition() {
-        transform.SetPositionAndRotation(lastStandPosition,lastStandRotation);
-        shipRigidbody.velocity = Vector3.zero;
-        shipRigidbody.angularVelocity = Vector3.zero;
         ResetAcceleration();
         ResetSteering();
+        shipRigidbody.velocity = Vector3.zero;
+        shipRigidbody.angularVelocity = Vector3.zero;
+        transform.SetPositionAndRotation(lastStandPosition,lastStandRotation);
+        shipRigidbody.MoveRotation(lastStandRotation);
     }
 
     void OnCollisionEnter(Collision collisionInfo)
@@ -141,7 +144,6 @@ public class ShipMovement : MonoBehaviour
             TimeSpan millisPassedSinceContact = DateTime.Now - lastLandContact;
             millisSinceContactStart = millisPassedSinceContact.TotalMilliseconds;
             if (millisSinceContactStart >= maxLandContactMillis) {
-                Debug.Log("Reset Position");
                 ResetToLastStandPosition();
             }
         }
@@ -152,17 +154,34 @@ public class ShipMovement : MonoBehaviour
         if (other.CompareTag("ShipStand"))
         {
             Debug.Log("Player entered the Ship Stand area!");
-            Vector3 newStandPosition = other.transform.position;
-            Quaternion newStandRotation = other.transform.rotation;
-            SetLastStandPosition(newStandPosition, newStandRotation);
+            Transform checkpoint = FindChildWithTag(other.transform,"ShipStandCheckpoint");
+            if (checkpoint != null) {
+                Debug.Log("CHECKPOINT Position: " + checkpoint.position + ", Rotation: " + checkpoint.rotation.eulerAngles);
+                Vector3 newStandPosition = checkpoint.position;
+                Quaternion newStandRotation = checkpoint.rotation;
+                SetLastStandPosition(newStandPosition, newStandRotation);
+            }
         }
     }
 
     void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("ShipStand"))
+        // if (other.CompareTag("ShipStand"))
+        // {
+        //     Debug.Log("Player left the Ship Stand area!");
+        // }
+    }
+
+    private Transform FindChildWithTag(Transform parent, string tag)
+    {
+        foreach (Transform child in parent)
         {
-            Debug.Log("Player left the Ship Stand area!");
+            if (child.CompareTag(tag))
+            {
+                return child;
+            }
         }
+
+        return null; // Return null if no child with the tag is found
     }
 }
