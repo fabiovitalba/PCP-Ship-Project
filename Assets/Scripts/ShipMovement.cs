@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,10 +18,22 @@ public class ShipMovement : MonoBehaviour
     public float rudderDelta = 2.0f;
     public float maxRudder = 6.0f;
 
+    [Header("Land Collision")]
+    public int maxLandContactMillis = 1500;
+    // This variable stores the last Stand Checkpoint in order to return to the Stand if the player ever touches land for too long.
+    public Vector3 lastStandPosition;
+    public Quaternion lastStandRotation;
+    public DateTime lastLandContact = new DateTime();
+    public double millisSinceContactStart = 0;
+
+    private Rigidbody shipRigidbody = null;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        lastStandPosition = transform.position;
+        lastStandRotation = transform.rotation;
+        shipRigidbody = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -77,5 +90,73 @@ public class ShipMovement : MonoBehaviour
         rotation.y = heading;
         rotation.z = -rudder;
         transform.eulerAngles = rotation;
+    }
+
+    public void ResetAcceleration() {
+        speed = 0.0f;
+    }
+
+    public void ResetSteering() {
+        rudder = 0.0f;
+        heading = 0.0f;
+    }
+
+    public void ResetToLastStandPosition() {
+        transform.SetPositionAndRotation(lastStandPosition,lastStandRotation);
+        shipRigidbody.velocity = Vector3.zero;
+        shipRigidbody.angularVelocity = Vector3.zero;
+        ResetAcceleration();
+        ResetSteering();
+    }
+
+    void OnCollisionEnter(Collision collisionInfo)
+    {
+        // Debug-draw all contact points and normals
+        // foreach (ContactPoint contact in collisionInfo.contacts) {
+        //     Debug.DrawRay(contact.point, contact.normal, Color.white);
+        // }
+        if (collisionInfo.transform.CompareTag("Land")) {
+            lastLandContact = DateTime.Now;
+        }
+    }
+
+    void OnCollisionExit(Collision collisionInfo)
+    {
+        lastLandContact = new DateTime();
+        millisSinceContactStart = 0;
+    }
+
+    void OnCollisionStay(Collision collisionInfo)
+    {
+        // Debug-draw all contact points and normals
+        // foreach (ContactPoint contact in collisionInfo.contacts) {
+        //     Debug.DrawRay(contact.point, contact.normal, Color.white);
+        // }
+        if (collisionInfo.transform.CompareTag("Land")) {
+            TimeSpan millisPassedSinceContact = DateTime.Now - lastLandContact;
+            millisSinceContactStart = millisPassedSinceContact.TotalMilliseconds;
+            if (millisSinceContactStart >= maxLandContactMillis) {
+                Debug.Log("Reset Position");
+                ResetToLastStandPosition();
+            }
+        }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("ShipStand"))
+        {
+            Debug.Log("Player entered the area!");
+            // Add your code here
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("ShipStand"))
+        {
+            Debug.Log("Player left the area!");
+            // Add your code here
+        }
     }
 }
