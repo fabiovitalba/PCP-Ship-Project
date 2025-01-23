@@ -8,16 +8,50 @@ Find the other repository here: [Arduino Water Boiler Controller](https://github
 
 ## 1. Description
 In this Unity 3D project, you will find a navigateable ship that can sail accross the ocean between some islands. The ship has the ability to accelerate or decelerate as well as to steer/rudder, based on input. Whenever the ship is near to a port, that port is stored as a checkpoint in case the ship goes on land.
+
 Each major island hosts a small village together with a port. A couple of shipwrecks can be found while navigating.
 
+During navigation a rudder icon on the bottom right corner of the screen helps the player understand in which direction the ship is rotating to. This helps navigation while using the Water Boiler.
+
 ## 2. Visuals
+### 2.1. Video
 [Video Demo](https://youtube.com/...)
+
+### 2.2. Screenshots
+Here are a few screenshots of some key elements of the 3D world.
+
+#### Starting position
+![Starting position](/Screenshots/in-game-start.png)
+
+#### Port checkpoint
+![Port checkpoint](/Screenshots/in-game-port.png)
+
+#### Island village
+![Island village](/Screenshots/in-game-village.png)
+
+#### Shipwreck
+![Shipwreck](/Screenshots/in-game-shipwreck.png)
 
 ## 3. Installation
 This Project requires some external assets from the Unity Asset Store. By opening this project through the Unity Hub, it will automatically download any required assets and build it in order to be run.
 
 ### 3.1. Fine tuning of Arduino Controller
-When using the **Arduino Water Boiler Controller** you might have to fine tune some settings inside the 3D world. Here are the most important settings to look at:
+When using the **Arduino Water Boiler Controller** you might have to fine tune some settings inside the 3D world. Here are the most important settings to look at.
+
+Locate the `ControllerConnector` GameObject and find the Serial Port Listener Script attached to it:
+![Water Boiler Controller Connection](/Screenshots/water-boiler-controller-connection.png)
+- Port Name: This must be the Port that is used by the Arduino Water Boiler Controller that is attached through USB.
+  - Finding the Port Name on MacOs/Linux:
+  Go to the Terminal and execute the command: `ls /dev/{tty,cu}.*` in order to list all the connected devices. Since the water boiler is connected through USB it must be one of the devices containing "usbserial". Copy the full name and paste it into the `Port Name` property of the script.
+
+
+Locate the `PlayerShip` GameObject and find the Water Boiler Script attached to it:
+![Water Boiler Controller Settings](/Screenshots/water-boiler-controller-settings.png)
+- Water Boiler Connected: This will turn active once the game detects the Water Boiler Controller to be connected.
+- Cutoff Rotation Value: This must be in line with the Value that you define in the Arduino Script. It defines after which value the rotation angle is no longer increased.
+- Switch Value Threshold: Defines the minimum value for the switch (Water boiler button) to count as activated.
+- Min Light Value: Defines the minimum value that is received by Arduino from the light-dependent resistor.
+- Max Light Value: Defines the maximum value that is received by Arduino from the light-dependent resistor.
 
 
 ## 4. Usage
@@ -36,6 +70,10 @@ The project was only tested inside Unity 3D, so you will have to open the reposi
 
 ## 5. Support
 For issues feel free to contact me on fvitalba@unibz.it, or by opening an Issue on the Repository.
+
+### 5.1. Common Issues
+- **I connected the Controller and selected the correct port, but the controller is not connected.**
+  - You might have another program open that is listening on that specific port. One example for this could be Arduino IDE which automatically listens on the port of your controller. An easy solution is to close all other programs except Unity.
 
 ## 6. Contributing
 Currently this project is not open for contributions at it is in very early stages of development.
