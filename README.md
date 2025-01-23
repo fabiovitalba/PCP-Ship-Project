@@ -1,5 +1,5 @@
 # Fabio Vitalba - Ship Navigation Project ('Boil Voyage')
-This is the final project for the course "Physical Computing Project 24/25" for Fabio Vitalba
+This is the final project for the course "Physical Computing Project 24/25" for Fabio Vitalba.
 
 ## Boil Voyage
 The Project is divided into two repositories. This repository is the 3D world created using Unity.
@@ -79,6 +79,7 @@ For issues feel free to contact me on fvitalba@unibz.it, or by opening an Issue 
 Currently this project is not open for contributions at it is in very early stages of development.
 
 ## 7. Authors and acknowledgment
+- Main author: Fabio Vitalba
 - Various Free Asset Packs from the Unity Asset Store:
   - AllSky Free - 10 Sky / Skybox Set
   - AQUAS Lite - Built-In Render Pipeline
@@ -86,6 +87,7 @@ Currently this project is not open for contributions at it is in very early stag
   - RPG Poly Pack - Lite
   - Stylized Pirate Ship
   - URP Stylized Water Shader - Proto Series
+- Ardity Connector for Arduino Serial Port connection
 - Background Music from pixabay.com:
   - Ribhava Gravawal - Ghostly Groove Dark Ambience
   - Kaydream321 - Ocean Waves White Noise
