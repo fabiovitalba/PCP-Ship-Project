@@ -2,9 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum ValueToTrack {
+    ActualRudder,
+    InputRudder
+}
+
 public class UIRudderController : MonoBehaviour
 {
     public GameObject target;
+    public ValueToTrack valueToTrack;
     private ShipMovement shipMovement;
 
     // Start is called before the first frame update
@@ -18,7 +24,14 @@ public class UIRudderController : MonoBehaviour
     {
         if (shipMovement != null) {
             var eulerAngles = transform.eulerAngles;
-            transform.rotation = Quaternion.Euler(eulerAngles.x, eulerAngles.y, -shipMovement.rudder * 10);
+            switch(valueToTrack) {
+                case ValueToTrack.ActualRudder:
+                    transform.rotation = Quaternion.Euler(eulerAngles.x, eulerAngles.y, -shipMovement.rudder * 10);
+                    break;
+                case ValueToTrack.InputRudder:
+                    transform.rotation = Quaternion.Euler(eulerAngles.x, eulerAngles.y, -shipMovement.GetInputRudder() * 10);
+                    break;
+            }
         }
     }
 }

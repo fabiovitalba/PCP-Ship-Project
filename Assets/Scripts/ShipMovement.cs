@@ -9,14 +9,15 @@ public class ShipMovement : MonoBehaviour
     public float speed = 0.0f;
     public float acceleration = 1.0f;
     public float decceleration = 0.75f;
-    public float maxspeed = 7.0f;
-    public float minspeed = 0.0f;
+    public float maxSpeed = 7.0f;
+    public float minSpeed = 0.0f;
 
     [Header("Steering")]
     public float heading = 0.0f; // Where is the Ship heading to
     public float rudder = 0.0f; // What is the current steering input
     public float rudderDelta = 2.0f;
     public float maxRudder = 6.0f;
+    private float inputRudderUI = 0.0f; // used in UI
 
     [Header("Land Collision")]
     public int maxLandContactMillis = 1500;
@@ -26,6 +27,9 @@ public class ShipMovement : MonoBehaviour
     public Quaternion lastStandRotation;
     public DateTime lastLandContact = new DateTime();
     public double millisSinceContactStart = 0;
+    
+    [Header("Others")]
+    public MessageDisplay messageDisplay;
 
     private Rigidbody shipRigidbody = null;
 
@@ -55,19 +59,19 @@ public class ShipMovement : MonoBehaviour
             }
         } else {
             speed += inputSpeed * acceleration * Time.deltaTime;
-            if (speed > maxspeed) {
-                speed = maxspeed;
+            if (speed > maxSpeed) {
+                speed = maxSpeed;
             }
-            else if (speed < minspeed) {
-                speed = minspeed;
+            else if (speed < minSpeed) {
+                speed = minSpeed;
             }
         }
 
-        if (speed > maxspeed) {
-            speed = maxspeed;
+        if (speed > maxSpeed) {
+            speed = maxSpeed;
         }
-        else if (speed < minspeed) {
-            speed = minspeed;
+        else if (speed < minSpeed) {
+            speed = minSpeed;
         }
 
         // Sail / Forward Thrust
@@ -76,6 +80,7 @@ public class ShipMovement : MonoBehaviour
 
     public void Steer(float inputRudder)
     {
+        inputRudderUI = inputRudder;
         rudder += inputRudder * rudderDelta * Time.deltaTime;
         if (rudder > maxRudder) {
             rudder = maxRudder;
@@ -157,7 +162,8 @@ public class ShipMovement : MonoBehaviour
     {
         if (other.CompareTag("ShipStand"))
         {
-            Debug.Log("Storing Checkpoint!");
+            Debug.Log("Port updated!");
+            messageDisplay.ShowMessage("Port updated!");
             Transform checkpoint = FindChildWithTag(other.transform,"ShipStandCheckpoint");
             if (checkpoint != null) {
                 Vector3 newStandPosition = checkpoint.position;
@@ -174,6 +180,11 @@ public class ShipMovement : MonoBehaviour
         // {
         //     Debug.Log("Player left the Ship Stand area!");
         // }
+    }
+
+    public float GetInputRudder()
+    {
+        return inputRudderUI * rudderDelta;
     }
 
     private Transform FindChildWithTag(Transform parent, string tag)
