@@ -5,7 +5,6 @@ using UnityEngine;
 public class UISpeedContoller : MonoBehaviour
 {
     public GameObject target;
-    //public ValueToTrack valueToTrack;
     private ShipMovement shipMovement;
     public GameObject knot1;
     public GameObject knot2;

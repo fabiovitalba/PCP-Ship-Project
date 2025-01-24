@@ -15761,7 +15761,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waterBoilerConnected: 0
-  cutoffRotationValue: 20
+  rotationValue: 1
+  cutoffRelativeRotationValue: 40
+  cutoffAbsoluteRotationValue: 80
   minLightValue: 0
   maxLightValue: 255
   debugRelativeRotationValue: 0
