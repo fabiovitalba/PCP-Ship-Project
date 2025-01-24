@@ -3783,7 +3783,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &415937132
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5618,7 +5618,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &590981022
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9532,7 +9532,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1104500408
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11917,7 +11917,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1404824616
 RectTransform:
   m_ObjectHideFlags: 0
@@ -14294,7 +14294,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1713323355
 RectTransform:
   m_ObjectHideFlags: 0
@@ -14418,6 +14418,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1727776934}
+  - component: {fileID: 1727776935}
   m_Layer: 5
   m_Name: ShipSpeedIndicators
   m_TagString: Untagged
@@ -14449,6 +14450,24 @@ RectTransform:
   m_AnchoredPosition: {x: -60, y: 40}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1727776935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1727776933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eecff8e23c97e454b81f0d0753149886, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 1938597145}
+  knot1: {fileID: 1104500407}
+  knot2: {fileID: 1404824615}
+  knot3: {fileID: 1713323354}
+  knot4: {fileID: 590981021}
+  knot5: {fileID: 415937131}
 --- !u!4 &1737257353 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4202130902894980, guid: 6910e2407cd484a42a0c2598114751a0, type: 3}
