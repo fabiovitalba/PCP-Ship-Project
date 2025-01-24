@@ -11531,7 +11531,7 @@ MonoBehaviour:
   baudRate: 9600
   messageListener: {fileID: 1938597145}
   reconnectionDelay: 1000
-  maxUnreadMessages: 10
+  maxUnreadMessages: 1
 --- !u!4 &1369135190
 Transform:
   m_ObjectHideFlags: 0
