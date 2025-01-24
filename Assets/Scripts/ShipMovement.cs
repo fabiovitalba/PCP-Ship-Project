@@ -26,6 +26,9 @@ public class ShipMovement : MonoBehaviour
     public Quaternion lastStandRotation;
     public DateTime lastLandContact = new DateTime();
     public double millisSinceContactStart = 0;
+    
+    [Header("Others")]
+    public MessageDisplay messageDisplay;
 
     private Rigidbody shipRigidbody = null;
 
@@ -157,7 +160,8 @@ public class ShipMovement : MonoBehaviour
     {
         if (other.CompareTag("ShipStand"))
         {
-            Debug.Log("Storing Checkpoint!");
+            Debug.Log("Port updated!");
+            messageDisplay.ShowMessage("Port updated!");
             Transform checkpoint = FindChildWithTag(other.transform,"ShipStandCheckpoint");
             if (checkpoint != null) {
                 Vector3 newStandPosition = checkpoint.position;

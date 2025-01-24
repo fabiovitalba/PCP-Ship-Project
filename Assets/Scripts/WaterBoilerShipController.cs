@@ -19,7 +19,6 @@ public class WaterBoilerShipController : MonoBehaviour
     [Header("Input Tuning")]
     public bool waterBoilerConnected = false;
     public float cutoffRotationValue = 40f;
-    public float switchValueThreshold = 300f;
     public float minLightValue = 0f;
     public float maxLightValue = 255f;
 
@@ -117,12 +116,12 @@ public class WaterBoilerShipController : MonoBehaviour
     }
 
     /// <summary>
-    /// 
+    /// Reads the switchValue received from the controller which will lie between 0 and 1. Anything above 0 counts as true.
     /// </summary>
     /// <param name="switchValue"></param>
     private void HandleSwitchValue(float switchValue)
     {
-        currentLightInput = switchValue > switchValueThreshold;
+        currentLightInput = switchValue > 0;
 
         debugSwitchValue = switchValue;
     }
