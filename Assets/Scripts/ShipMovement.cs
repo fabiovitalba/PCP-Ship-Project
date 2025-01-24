@@ -17,6 +17,7 @@ public class ShipMovement : MonoBehaviour
     public float rudder = 0.0f; // What is the current steering input
     public float rudderDelta = 2.0f;
     public float maxRudder = 6.0f;
+    private float inputRudderUI = 0.0f; // used in UI
 
     [Header("Land Collision")]
     public int maxLandContactMillis = 1500;
@@ -79,6 +80,7 @@ public class ShipMovement : MonoBehaviour
 
     public void Steer(float inputRudder)
     {
+        inputRudderUI = inputRudder;
         rudder += inputRudder * rudderDelta * Time.deltaTime;
         if (rudder > maxRudder) {
             rudder = maxRudder;
@@ -178,6 +180,11 @@ public class ShipMovement : MonoBehaviour
         // {
         //     Debug.Log("Player left the Ship Stand area!");
         // }
+    }
+
+    public float GetInputRudder()
+    {
+        return inputRudderUI * rudderDelta;
     }
 
     private Transform FindChildWithTag(Transform parent, string tag)
