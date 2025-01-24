@@ -32,7 +32,6 @@ public class UIRudderController : MonoBehaviour
                     transform.rotation = Quaternion.Euler(eulerAngles.x, eulerAngles.y, -shipMovement.GetInputRudder() * 10);
                     break;
             }
-            
         }
     }
 }

@@ -9,8 +9,8 @@ public class ShipMovement : MonoBehaviour
     public float speed = 0.0f;
     public float acceleration = 1.0f;
     public float decceleration = 0.75f;
-    public float maxspeed = 7.0f;
-    public float minspeed = 0.0f;
+    public float maxSpeed = 7.0f;
+    public float minSpeed = 0.0f;
 
     [Header("Steering")]
     public float heading = 0.0f; // Where is the Ship heading to
@@ -59,19 +59,19 @@ public class ShipMovement : MonoBehaviour
             }
         } else {
             speed += inputSpeed * acceleration * Time.deltaTime;
-            if (speed > maxspeed) {
-                speed = maxspeed;
+            if (speed > maxSpeed) {
+                speed = maxSpeed;
             }
-            else if (speed < minspeed) {
-                speed = minspeed;
+            else if (speed < minSpeed) {
+                speed = minSpeed;
             }
         }
 
-        if (speed > maxspeed) {
-            speed = maxspeed;
+        if (speed > maxSpeed) {
+            speed = maxSpeed;
         }
-        else if (speed < minspeed) {
-            speed = minspeed;
+        else if (speed < minSpeed) {
+            speed = minSpeed;
         }
 
         // Sail / Forward Thrust
