@@ -11,7 +11,8 @@ In this Unity 3D project, you will find a navigateable ship that can sail accros
 
 Each major island hosts a small village together with a port. A couple of shipwrecks can be found while navigating.
 
-During navigation a rudder icon on the bottom right corner of the screen helps the player understand in which direction the ship is rotating to. This helps navigation while using the Water Boiler.
+During navigation a rudder icon on the bottom left corner of the screen helps the player understand in which direction the ship is rotating to. This helps navigation while using the Water Boiler. Behind the rudder icon the users find a red line, which indicates the current input rotation - for example from the Water Boiler or the Keyboard. This helps understanding the ships behaviour while turning.
+At the bottom right corner a set of knots appear to indicate the current ship speed, which is sometimes hard to graps while on the open sea. This also helps the navigation.
 
 ## 2. Visuals
 ### 2.1. Video
