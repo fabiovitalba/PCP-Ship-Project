@@ -16,7 +16,8 @@ At the bottom right corner a set of knots appear to indicate the current ship sp
 
 ## 2. Visuals
 ### 2.1. Video
-[Video Demo](https://youtube.com/...)
+[![Video Thumbnail for demo](/Screenshots/video-thumbnail.png)](https://youtu.be/bY-w15Ag9aQ)
+[Link to video](https://youtu.be/bY-w15Ag9aQ)
 
 ### 2.2. Screenshots
 Here are a few screenshots of some key elements of the 3D world.
