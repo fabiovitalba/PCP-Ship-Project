@@ -14,11 +14,19 @@ using System.Collections;
  *  - OnMessageArrived
  *  - OnConnectionEvent
  */
+
+public enum RotationValue {
+    Relative,
+    Absolute
+}
+
 public class WaterBoilerShipController : MonoBehaviour
 {
     [Header("Input Tuning")]
     public bool waterBoilerConnected = false;
-    public float cutoffRotationValue = 40f;
+    public RotationValue rotationValue = RotationValue.Relative;
+    public float cutoffRelativeRotationValue = 40f;
+    public float cutoffAbsoluteRotationValue = 80f; // The value actually goes to 127, but users likely never turn that hard.
     public float minLightValue = 0f;
     public float maxLightValue = 255f;
 
@@ -62,9 +70,14 @@ public class WaterBoilerShipController : MonoBehaviour
             string[] values = variable.Split(":");
             switch(values[0].ToLower()) {
                 case "absoluterotationvalue":
-                    break; // This value is received but ignored
+                if (rotationValue == RotationValue.Absolute) {
+                        HandleAbsoluteRotationValue(float.Parse(values[1]));
+                    }
+                    break;
                 case "relativerotationvalue":
-                    HandleRotationValue(float.Parse(values[1]));
+                    if (rotationValue == RotationValue.Relative) {
+                        HandleRelativeRotationValue(float.Parse(values[1]));
+                    }
                     break;
                 case "switchvalue":
                     HandleSwitchValue(float.Parse(values[1]));
@@ -95,16 +108,36 @@ public class WaterBoilerShipController : MonoBehaviour
     /// When the boiler is rotated to the right, the received value is below 0, and when the boiler is rotated to the left the value will be positive.
     /// </summary>
     /// <param name="rotationValue"></param>
-    private void HandleRotationValue(float rotationValue)
+    private void HandleRelativeRotationValue(float rotationValue)
     {
         float inputValue = rotationValue * -1;
         // First we ceil the value before mapping it.
-        if (Mathf.Abs(inputValue) > cutoffRotationValue) {
-            inputValue = Mathf.Sign(inputValue) * cutoffRotationValue;
+        if (Mathf.Abs(inputValue) > cutoffRelativeRotationValue) {
+            inputValue = Mathf.Sign(inputValue) * cutoffRelativeRotationValue;
         }
 
         // Now we map from [-ceil, ceil] to [0,1]
-        inputValue = Mathf.InverseLerp(-cutoffRotationValue,cutoffRotationValue,inputValue);
+        inputValue = Mathf.InverseLerp(-cutoffRelativeRotationValue,cutoffRelativeRotationValue,inputValue);
+
+        // And finally we map from [0,1] to [-1,1];
+        inputValue = Mathf.Lerp(-1,1,inputValue);
+
+        // The mapped value is now our Steering input
+        currentSteerInput = inputValue;
+
+        debugRelativeRotationValue = rotationValue;
+    }
+
+    private void HandleAbsoluteRotationValue(float rotationValue)
+    {
+        float inputValue = rotationValue * -1;
+        // First we ceil the value before mapping it.
+        if (Mathf.Abs(inputValue) > cutoffAbsoluteRotationValue) {
+            inputValue = Mathf.Sign(inputValue) * cutoffAbsoluteRotationValue;
+        }
+
+        // Now we map from [-ceil, ceil] to [0,1]
+        inputValue = Mathf.InverseLerp(-cutoffAbsoluteRotationValue,cutoffAbsoluteRotationValue,inputValue);
 
         // And finally we map from [0,1] to [-1,1];
         inputValue = Mathf.Lerp(-1,1,inputValue);
