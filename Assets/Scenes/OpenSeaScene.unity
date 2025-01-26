@@ -15761,17 +15761,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waterBoilerConnected: 0
-  rotationValue: 1
+  rotationValue: 0
+  steeringMode: 0
+  enableRotationInputFiltering: 1
   cutoffRelativeRotationValue: 40
   cutoffAbsoluteRotationValue: 80
   minLightValue: 0
   maxLightValue: 255
-  debugRelativeRotationValue: 0
-  debugSwitchValue: 0
-  debugLightValue: 0
-  currentSteerInput: 0
-  currentAccelInput: 0
-  currentLightInput: 0
 --- !u!114 &1938597154
 MonoBehaviour:
   m_ObjectHideFlags: 0

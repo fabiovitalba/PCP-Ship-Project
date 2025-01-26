@@ -82,6 +82,18 @@ public class ShipMovement : MonoBehaviour
     {
         inputRudderUI = inputRudder;
         rudder += inputRudder * rudderDelta * Time.deltaTime;
+        UpdateHeading(rudder);
+    }
+
+    public void SetRudder(float newRudder)
+    {
+        inputRudderUI = newRudder;
+        rudder = newRudder;
+        UpdateHeading(rudder);
+    }
+
+    private void UpdateHeading(float rudder)
+    {
         if (rudder > maxRudder) {
             rudder = maxRudder;
         } else if (rudder < -maxRudder) {

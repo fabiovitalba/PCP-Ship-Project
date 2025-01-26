@@ -20,25 +20,29 @@ public enum RotationValue {
     Absolute
 }
 
+public enum SteeringMode {
+    Direct,
+    Indirect
+}
+
 public class WaterBoilerShipController : MonoBehaviour
 {
     [Header("Input Tuning")]
     public bool waterBoilerConnected = false;
-    public RotationValue rotationValue = RotationValue.Relative;
+    public RotationValue rotationValue = RotationValue.Absolute;
+    public SteeringMode steeringMode = SteeringMode.Direct;
+    public bool enableRotationInputFiltering = true;
     public float cutoffRelativeRotationValue = 40f;
-    public float cutoffAbsoluteRotationValue = 80f; // The value actually goes to 127, but users likely never turn that hard.
+    public float cutoffAbsoluteRotationValue = 90f; // The value actually goes to 127, but users likely never turn that hard.
     public float minLightValue = 0f;
     public float maxLightValue = 255f;
 
-    [Header("Received Values (Debug)")]
-    public float debugRelativeRotationValue = 0.0f;
-    public float debugSwitchValue = 0.0f;
-    public float debugLightValue = 0.0f;
 
-    [Header("Translated Inputs (Debug)")]
-    public float currentSteerInput = 0.0f;
-    public float currentAccelInput = 0.0f;
-    public bool currentLightInput = false;
+    private float currentSteerInput = 0.0f;
+    private const float EMA_ALPHA = 0.1f;
+    private float emaFilteredSteerInput = 0.0f;
+    private float currentAccelInput = 0.0f;
+    private bool currentLightInput = false;
 
     private ShipMovement shipMovement;
     private ShipSearchLight shipSearchLight;
@@ -53,9 +57,13 @@ public class WaterBoilerShipController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // unused
         if (waterBoilerConnected) {
-            shipMovement.Steer(currentSteerInput);
+            if (steeringMode == SteeringMode.Direct) {
+                shipMovement.SetRudder(currentSteerInput);
+            } else {
+                shipMovement.Steer(currentSteerInput);
+            }
+
             shipMovement.Accelerate(currentAccelInput);
             
             shipSearchLight.ToggleSearchLights(currentLightInput);
@@ -122,10 +130,15 @@ public class WaterBoilerShipController : MonoBehaviour
         // And finally we map from [0,1] to [-1,1];
         inputValue = Mathf.Lerp(-1,1,inputValue);
 
-        // The mapped value is now our Steering input
-        currentSteerInput = inputValue;
+        if (steeringMode == SteeringMode.Direct) {
+            inputValue *= shipMovement.maxRudder;
+        }
 
-        debugRelativeRotationValue = rotationValue;
+        // The mapped value is now our Steering input
+        if (enableRotationInputFiltering) {
+            inputValue = applyEMAFilter(inputValue);
+        }
+        currentSteerInput = inputValue;
     }
 
     private void HandleAbsoluteRotationValue(float rotationValue)
@@ -142,10 +155,15 @@ public class WaterBoilerShipController : MonoBehaviour
         // And finally we map from [0,1] to [-1,1];
         inputValue = Mathf.Lerp(-1,1,inputValue);
 
-        // The mapped value is now our Steering input
-        currentSteerInput = inputValue;
+        if (steeringMode == SteeringMode.Direct) {
+            inputValue *= shipMovement.maxRudder;
+        }
 
-        debugRelativeRotationValue = rotationValue;
+        // The mapped value is now our Steering input
+        if (enableRotationInputFiltering) {
+            inputValue = applyEMAFilter(inputValue);
+        }
+        currentSteerInput = inputValue;
     }
 
     /// <summary>
@@ -155,8 +173,6 @@ public class WaterBoilerShipController : MonoBehaviour
     private void HandleSwitchValue(float switchValue)
     {
         currentLightInput = switchValue > 0;
-
-        debugSwitchValue = switchValue;
     }
 
     /// <summary>
@@ -167,7 +183,15 @@ public class WaterBoilerShipController : MonoBehaviour
     {
         float inputValue = Mathf.InverseLerp(minLightValue, maxLightValue, lightValue);
         currentAccelInput = inputValue;
+    }
 
-        debugLightValue = lightValue;
+    private float applyEMAFilter(float inputValue)
+    {
+        if (emaFilteredSteerInput == 0.0f) {
+            emaFilteredSteerInput = inputValue;
+        } else {
+            emaFilteredSteerInput = (EMA_ALPHA * inputValue) + ((1.0f - EMA_ALPHA) * emaFilteredSteerInput);
+        }
+        return emaFilteredSteerInput;
     }
 }
