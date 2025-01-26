@@ -39,7 +39,7 @@ public class WaterBoilerShipController : MonoBehaviour
 
 
     private float currentSteerInput = 0.0f;
-    private const float EMA_ALPHA = 0.1f;
+    private const float EMA_ALPHA = 0.5f;
     private float emaFilteredSteerInput = 0.0f;
     private float currentAccelInput = 0.0f;
     private bool currentLightInput = false;
