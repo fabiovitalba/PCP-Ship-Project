@@ -20,13 +20,19 @@ public enum RotationValue {
     Absolute
 }
 
+public enum SteeringMode {
+    Direct,
+    Indirect
+}
+
 public class WaterBoilerShipController : MonoBehaviour
 {
     [Header("Input Tuning")]
     public bool waterBoilerConnected = false;
-    public RotationValue rotationValue = RotationValue.Relative;
+    public RotationValue rotationValue = RotationValue.Absolute;
+    public SteeringMode steeringMode = SteeringMode.Direct;
     public float cutoffRelativeRotationValue = 40f;
-    public float cutoffAbsoluteRotationValue = 80f; // The value actually goes to 127, but users likely never turn that hard.
+    public float cutoffAbsoluteRotationValue = 90f; // The value actually goes to 127, but users likely never turn that hard.
     public float minLightValue = 0f;
     public float maxLightValue = 255f;
 
@@ -55,7 +61,12 @@ public class WaterBoilerShipController : MonoBehaviour
     {
         // unused
         if (waterBoilerConnected) {
-            shipMovement.Steer(currentSteerInput);
+            if (steeringMode == SteeringMode.Direct) {
+                shipMovement.SetRudder(currentSteerInput * shipMovement.maxRudder);
+            } else {
+                shipMovement.Steer(currentSteerInput);
+            }
+
             shipMovement.Accelerate(currentAccelInput);
             
             shipSearchLight.ToggleSearchLights(currentLightInput);
